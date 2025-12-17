@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import StatisticsHabit from './StatisticsHabit';
+import ScheduleHabit from './ScheduleHabit';
 
 function CreatedHabit() {
     const [habits, setHabits] = useState([]) // lista de hábitos 
@@ -43,6 +45,29 @@ function CreatedHabit() {
         console.log("hábito activo:", id);
         setSelectedHabit(id);
     };
+
+    //Buscamos el hábito que el usuario clickeó en la lista
+    const currentHabit = habits.find(h => h.id === selectedHabit);
+
+    //funcion para que cada habito este separado
+    const toggleDay = (dateStr) => {
+        if (!selectedHabit) return; // Si no hay hábito seleccionado, no hacemos nada
+
+        const updatedHabits = habits.map(habit => {
+            if (habit.id === selectedHabit) {
+                const isAlreadyCompleted = habit.completedDays.includes(dateStr);
+                return {
+                    ...habit,
+                    completedDays: isAlreadyCompleted
+                        ? habit.completedDays.filter(d => d !== dateStr) // Lo quita si ya estaba
+                        : [...habit.completedDays, dateStr] // Lo agrega si no estaba
+                };
+            }
+            return habit;
+        });
+
+        setHabits(updatedHabits);
+    }
 
     // función para cancelar creación y limpiar formulario
     const cancelAddHabit = () => {
@@ -154,6 +179,14 @@ function CreatedHabit() {
                     </li>
                 ))}
             </ul>
+            {/* pasar informacion para el componente de las estadísticas*/}
+            <StatisticsHabit habits={currentHabit} />
+            {/*pasar informacion al componente de el calendario*/}
+            <ScheduleHabit
+                color={currentHabit?.color}
+                completedDays={currentHabit?.completedDays || []}
+                onDateClick={toggleDay}
+            />  
         </div>
     );
 }
