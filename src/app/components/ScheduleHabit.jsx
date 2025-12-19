@@ -6,7 +6,12 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 
-export default function ScheduleHabit({ color, completedDays = [], onDateClick }) {
+export default function ScheduleHabit({ habit, color, completedDays = [], onDateClick }) {
+
+  //no mostrar el calendario si no hay habitos creados
+  if (!habit) {
+    return <p className="text-gray-500 italic">Selecciona un hábito de la lista o crea uno nuevo para empezar a hacer seguimiento de tu progreso.</p>;
+  }
   
   // Transformamos el array de strings ['2025-12-01', '2025-12-02'] 
   // en objetos de eventos que FullCalendar entiende.

@@ -107,6 +107,12 @@ function CreatedHabit() {
                 </button>
             )}
 
+            {/* mostrar mensaje de no habitos */}
+                {habits.length === 0 && (
+                    <p>¡No tienes hábitos todavía.<br/>
+                        ¡Crea tu primer hábito!</p>
+                )}
+
             {/* Formulario para crear hábito */}
             {showInput && (
                 <div className="mt-4 p-4 border rounded shadow-sm">
@@ -180,9 +186,10 @@ function CreatedHabit() {
                 ))}
             </ul>
             {/* pasar informacion para el componente de las estadísticas*/}
-            <StatisticsHabit habits={currentHabit} />
+            <StatisticsHabit habit={currentHabit} />
             {/*pasar informacion al componente de el calendario*/}
             <ScheduleHabit
+                habit={currentHabit}
                 color={currentHabit?.color}
                 completedDays={currentHabit?.completedDays || []}
                 onDateClick={toggleDay}
