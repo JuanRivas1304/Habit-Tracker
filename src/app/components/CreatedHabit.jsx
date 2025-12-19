@@ -158,7 +158,7 @@ function CreatedHabit() {
                     {/* Botones */}
                     <div className="flex space-x-2">
                     <button
-                        className="bg-purple-500 text-white px-24 py-2 rounded hover:bg-purple-600"
+                        className="bg-purple-500 text-white px-16 py-2 rounded hover:bg-purple-600"
                         onClick={addHabit}
                     >
                         Crear
