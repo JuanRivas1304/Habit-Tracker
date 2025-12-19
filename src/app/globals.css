@@ -25,3 +25,111 @@ body {
     text-wrap: balance;
   }
 }
+/* ===== RESET GENERAL ===== */
+.fc {
+  border: none;
+  font-family: inherit;
+}
+
+/* ===== HEADER ===== */
+.fc-toolbar-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.fc-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #6b7280 !important;
+}
+
+.fc-button:hover {
+  background: #f3f4f6 !important;
+  border-radius: 999px;
+}
+
+/* ===== NOMBRES DE DÍAS ===== */
+.fc-col-header-cell {
+  border: none;
+  font-size: 0.85rem;
+  color: #6b7280;
+  padding-bottom: 12px;
+}
+
+/* ===== GRID ===== */
+.fc-scrollgrid {
+  border: none;
+}
+
+.fc-daygrid-day {
+  border: none;
+  padding: 6px;
+}
+
+/* ===== CARD BASE ===== */
+.habit-day .fc-daygrid-day-frame {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== DÍA COMPLETADO (Dinamico) ===== */
+.habit-day-completed .fc-daygrid-day-frame {
+  background: var(--habit-color, #ef4444) !important;
+  border-radius: 14px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* ===== NÚMERO DEL DÍA ===== */
+.fc-daygrid-day-number {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Número blanco cuando está completado */
+.habit-day-completed .fc-daygrid-day-number {
+  color: white;
+  font-weight: 600;
+}
+
+/* ===== HOVER ===== */
+.habit-day:hover .fc-daygrid-day-frame {
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.habit-day-completed:hover .fc-daygrid-day-frame {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+/* ===== QUITAR FONDO HOY ===== */
+.fc-day-today {
+  background: transparent !important;
+}
+
+/* ===== DÍA ACTUAL (HOY) ===== */
+.fc-day-today.habit-day .fc-daygrid-day-frame {
+  border: 2px solid #374151; /* gray-700 */
+  box-shadow: 0 0 0 1px #374151;
+}
+
+/* Si HOY está completado, mantenemos rojo */
+.fc-day-today.habit-day-completed .fc-daygrid-day-frame {
+  border: 2px solid #1f2937; /* gray-800 */
+}
+
+.fc-day-today.habit-day .fc-daygrid-day-frame {
+  box-shadow: 0 0 0 1px #374151;
+}

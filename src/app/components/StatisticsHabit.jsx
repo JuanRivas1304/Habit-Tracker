@@ -1,4 +1,7 @@
 import React from 'react'
+import { CiCalendar } from "react-icons/ci";
+import { AiOutlineFire } from "react-icons/ai";
+import { HiOutlineTrophy } from "react-icons/hi2";
 
 function StatisticsHabit({ habit }) {
   // Si no hay un hábito seleccionado, mostramos un mensaje amigable
@@ -61,25 +64,49 @@ function StatisticsHabit({ habit }) {
 
   return (
     <div>
-      <div className="bg-white p-4 rounded-lg shadow mt-4 text-black">
-          <h3 className="text-lg font-bold border-b mb-3"><span className="w-4 h-4 rounded-full inline-block" style={{ backgroundColor: habit.color }}/>  {habit.name}</h3>
+      
+      {/* Contenedor para el color del hábito y el nombre */}
+      <div className="bg-white p-4 rounded-lg shadow mt-4">
+          <h3 className="text-lg text-gray-800 border-b mb-3 flex items-center gap-3">
+            <span className="w-4 h-4 rounded-full inline-block"
+             style={{ backgroundColor: habit.color }}
+            />  
+             {habit.name}
+          </h3>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow mt-4 text-black">
-        <h3 className="text-lg font-bold border-b mb-3">Estadísticas</h3>
+      <div className="bg-white p-4 rounded-lg shadow mt-4">
+        <h3 className="text-lg text-gray-800 border-b mb-3">Estadísticas</h3>
+
         <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-sm text-gray-500">Total días</p>
-            <p className="text-2xl font-bold text-blue-600">{totalDays}</p>
+
+          {/* Racha Actual */}
+          <div className='bg-red-50 rounded-lg'>
+            <div className="flex flex-col items-center">
+              <AiOutlineFire className="text-3xl text-orange-500 mb-1"/>
+              <p className="text-2xl  text-orange-500">{current}</p>
+              <p className="text-sm text-orange-600">Racha Actual</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Racha Actual</p>
-            <p className="text-2xl font-bold text-green-600">{current} 🔥</p>
+
+          {/* Mejor Racha */}
+          <div className='bg-yellow-50 rounded-lg'>
+            <div className='flex flex-col items-center'>
+              <HiOutlineTrophy className="text-3xl text-yellow-500 mb-1"/>
+              <p className="text-2xl text-yellow-500">{best}</p>
+              <p className="text-sm text-yellow-600">Mejor Racha</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Mejor Racha</p>
-            <p className="text-2xl font-bold text-purple-600">{best} 🏆</p>
+            
+          {/* Total de días */}
+          <div className='bg-purple-50 rounded-lg'>
+            <div className='flex flex-col items-center'>
+              <CiCalendar className="text-3xl text-purple-500 mb-1"/>
+              <p className="text-2xl text-purple-500">{totalDays}</p>
+              <p className="text-sm text-purple-600">Total días</p>
+            </div>
           </div>
+          
         </div>
       </div>
     </div>

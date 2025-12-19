@@ -2,4 +2,4 @@
 
 ## Habit Tracker
 
-A simple de seguidor de habitos con local storage.
+Una simple app de seguidor de habitos con local storage.
