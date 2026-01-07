@@ -22,14 +22,14 @@ function CreatedHabit() {
         if (inputHabit.trim() === "") return; // no agregar si está vacío
 
         const newHabit = {
-            id: habits.length + 1,
+            id: Date.now(), // ✅ ID único (antes habits.length + 1)
             name: inputHabit,
             color: selectedColor,
             completedDays: []
         };
 
         console.log("nuevo hábito agregado:", newHabit);
-        setHabits([...habits, newHabit]); // agregar al array
+        setHabits(prev => [...prev, newHabit]);
         setSelectedHabit(newHabit.id); // seleccionar el nuevo hábito
         setInputHabit(""); // limpiar input
         setShowInput(false); // ocultar formulario
@@ -38,9 +38,13 @@ function CreatedHabit() {
     // función para eliminar un hábito
     const deleteHabit = (id) => {
         console.log("eliminar hábito con id:", id);
-        const habitEliminated = habits.filter(habit => habit.id !== id);
-        console.log("lista de hábitos después de eliminar:", habitEliminated);
-        setHabits(habitEliminated);
+
+        setHabits(prev => prev.filter(habit => habit.id !== id));
+
+        //si se elimina el hábito activo, limpiamos selección
+        if (selectedHabit === id) {
+            setSelectedHabit(null);
+        }
     };
 
     // función para seleccionar un hábito activo
@@ -49,10 +53,10 @@ function CreatedHabit() {
         setSelectedHabit(id);
     };
 
-    //Buscamos el hábito que el usuario clickeó en la lista
+    // Buscamos el hábito que el usuario clickeó en la lista
     const currentHabit = habits.find(h => h.id === selectedHabit);
 
-    //funcion para que cada habito este separado
+    // funcion para que cada habito este separado
     const toggleDay = (dateStr) => {
         if (!selectedHabit) return; // Si no hay hábito seleccionado, no hacemos nada
 
@@ -88,27 +92,23 @@ function CreatedHabit() {
         setIsLoaded(true); // indicar que los datos han sido cargados
     }, []);
 
-    //guardar solo cuando ya este cargado
+    // guardar solo cuando ya este cargado
     useEffect(() => {
         if (isLoaded) {
             localStorage.setItem("habits", JSON.stringify(habits));
         }
     }, [habits, isLoaded]);
 
-
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 
-
             {/* COLUMNA IZQUIERDA */}
-
             <div className="bg-white p-4 rounded-lg shadow">
                 <h1 className="text-gray-600 mb-4 text-lg">
                 Mis Hábitos
                 </h1>
 
-                {/* Botón Agregar hábito */}
                 {!showInput && (
                 <button
                     className="w-full bg-white text-gray-600 py-2 rounded border-dashed border-2 border-gray-300 flex items-center justify-center gap-2 hover:bg-gray-50"
@@ -119,7 +119,6 @@ function CreatedHabit() {
                 </button>
                 )}
 
-                {/* Mensaje sin hábitos */}
                 {habits.length === 0 && !showInput &&(
                     <div className="flex flex-col items-center px-16 m-4">
                         <div className="text-center">
@@ -129,11 +128,8 @@ function CreatedHabit() {
                     </div>
                 )}
 
-
-                {/* Formulario */}
                 {showInput && (
                 <div className="mt-4 p-4 border-2 border-gray-200 rounded-lg shadow-sm">
-
                     <input
                     className="text-black border-2 border-gray-300 border-dashed p-2 rounded w-full mb-4"
                     type="text"
@@ -142,7 +138,6 @@ function CreatedHabit() {
                     placeholder="Nombre del hábito (ej: correr)"
                     />
 
-                    {/* Selector de color */}
                     <div className="flex space-x-2 mb-4">
                     {colors.map(color => (
                         <button
@@ -155,7 +150,6 @@ function CreatedHabit() {
                     ))}
                     </div>
 
-                    {/* Botones */}
                     <div className="flex space-x-2">
                     <button
                         className="bg-purple-500 text-white px-16 py-2 rounded hover:bg-purple-600"
@@ -173,14 +167,13 @@ function CreatedHabit() {
                 </div>
                 )}
 
-                {/* Lista de hábitos */}
                 <ul className="mt-6 space-y-2">
                 {habits.map(habit => (
                     <li
                     key={habit.id}
                     onClick={() => habitSelected(habit.id)}
                     style={{ borderColor: habit.color}}
-                    className={`cursor-pointer flex justify-between items-center p-2  border-2 rounded-xl
+                    className={`cursor-pointer flex justify-between items-center p-2 border-2 rounded-xl
                     ${selectedHabit === habit.id
                         ? 'bg-gray-200 text-gray-800'
                         : 'bg-white text-gray-800 hover:bg-gray-50'}`}
@@ -207,12 +200,8 @@ function CreatedHabit() {
                 </ul>
             </div>
 
-            {/* ===================== */}
             {/* COLUMNA DERECHA */}
-            {/* ===================== */}
             <div className="md:col-span-2 space-y-6">
-
-                {/* Header del hábito */}
                 {!currentHabit && (
                 <div className="bg-white p-6 rounded-lg shadow text-gray-500 italic">
                     Selecciona un hábito de la lista o crea uno nuevo para empezar a hacer seguimiento de tu progreso.
@@ -221,16 +210,12 @@ function CreatedHabit() {
 
                 {currentHabit && (
                 <>
-
-                    {/* Estadísticas */}
                     <StatisticsHabit habit={currentHabit} />
-
-                    {/* Calendario */}
                     <ScheduleHabit
-                    habit={currentHabit}
-                    color={currentHabit?.color}
-                    completedDays={currentHabit.completedDays}
-                    onDateClick={toggleDay}
+                        habit={currentHabit}
+                        color={currentHabit?.color}
+                        completedDays={currentHabit.completedDays}
+                        onDateClick={toggleDay}
                     />
                 </>
                 )}
