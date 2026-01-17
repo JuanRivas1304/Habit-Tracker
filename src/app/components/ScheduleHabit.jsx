@@ -1,23 +1,21 @@
-'use client';
+"use client";
 
-import React from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 export default function ScheduleHabit({
   habit,
-  color = '#ef4444',
   completedDays = [],
-  onDateClick
+  notes = {},
+  onOpenNote,
 }) {
-
   if (!habit) return null;
 
   return (
     <div
       className="bg-white p-6 rounded-lg shadow"
-      style={{ '--habit-color': color }}  // <-- Aquí pasas la variable CSS
+      style={{ "--habit-color": habit.color }}
     >
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -25,23 +23,28 @@ export default function ScheduleHabit({
         fixedWeekCount={false}
         height="auto"
         headerToolbar={{
-          left: 'prev',
-          center: 'title',
-          right: 'next'
+          left: "prev",
+          center: "title",
+          right: "next",
         }}
-        dateClick={(info) => onDateClick?.(info.dateStr)}
-
+        dateClick={(info) => onOpenNote(info.dateStr)}
         dayCellClassNames={(arg) => {
-          const dateStr = arg.date.toISOString().split('T')[0];
+          const dateStr = arg.date.toISOString().split("T")[0];
+          const classes = ["habit-day"];
 
           if (completedDays.includes(dateStr)) {
-            return ['habit-day-completed'];
+            classes.push("habit-day-completed");
           }
 
-          return ['habit-day'];
+          if (notes?.[dateStr]) {
+            classes.push("habit-note");
+          }
+
+          return classes;
         }}
       />
     </div>
   );
 }
+
 

@@ -133,3 +133,75 @@ body {
 .fc-day-today.habit-day .fc-daygrid-day-frame {
   box-shadow: 0 0 0 1px #374151;
 }
+
+.habit-note {
+  position: relative;
+}
+
+.habit-completed {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Día completado: pequeño círculo, no fondo */
+.habit-completed .fc-daygrid-day-number {
+  background-color: var(--habit-color, #ef4444);
+  color: white;
+  border-radius: 9999px;
+  padding: 4px 7px;
+}
+
+/* Número del día completado */
+.habit-completed .fc-daygrid-day-number {
+  background-color: var(--habit-color);
+  color: white;
+  border-radius: 9999px;
+  padding: 4px 7px;
+}
+
+/* Quitar fondo azul por defecto */
+.fc-day-today {
+  background: transparent !important;
+}
+
+/* HOY normal */
+.fc-day-today.habit-day .fc-daygrid-day-frame {
+  border: 2px solid #374151; /* gray-700 */
+  box-shadow: 0 0 0 1px #374151;
+}
+
+/* HOY + COMPLETADO */
+.fc-day-today.habit-day-completed .fc-daygrid-day-frame {
+  border: 2px solid #1f2937; /* gray-800 */
+  box-shadow: 0 0 0 1px #1f2937;
+}
+
+/* Asegurar referencia real */
+.fc-daygrid-day-frame {
+  position: relative;
+}
+
+/* Base del indicador de nota */
+.habit-note .fc-daygrid-day-frame::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  z-index: 6;
+
+  /* Icono como máscara */
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='white' d='M228.24 68.24l-40.48-40.48a16 16 0 0 0-22.62 0L36.69 156.21a16 16 0 0 0-4.12 7.09l-12 48a8 8 0 0 0 9.7 9.7l48-12a16 16 0 0 0 7.09-4.12L228.24 90.86a16 16 0 0 0 0-22.62ZM80 188.69L43.31 196.7 51.31 160 144 67.31 188.69 112ZM176 76.69 179.31 73.38 212.62 106.69 209.31 110Z'/%3E%3C/svg%3E")
+    center / 14px no-repeat;
+}
+
+/* Día NO completado → icono oscuro sobre fondo claro */
+.habit-note:not(.habit-day-completed) .fc-daygrid-day-frame::after {
+  background-color: #374151; /* gray-700 */
+}
+
+/* Día completado → icono blanco sobre fondo oscuro */
+.habit-note.habit-day-completed .fc-daygrid-day-frame::after {
+  background-color: white;
+}
